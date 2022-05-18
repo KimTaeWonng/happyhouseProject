@@ -5,10 +5,10 @@
         <b-col sm="3">
         </b-col>
         <b-col sm="5">
-          <b-form-input v-model="keyword" placeholder="Enter your name"></b-form-input>
+          <b-form-input v-model="keyword" placeholder="Enter your name" @keydown.enter="search"></b-form-input>
         </b-col>
         <b-col sm="1">
-          <b-button @click="search" @keydown.enter="search">검색</b-button>
+          <b-button @click="search">검색</b-button>
         </b-col>
         <b-col sm="3">
       </b-col>

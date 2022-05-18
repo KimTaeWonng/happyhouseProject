@@ -89,7 +89,7 @@ export default new Vuex.Store({
 				const res = await axios.delete('http://localhost:9999/vue/board/' + id);
 				console.log(res.data);
 				if (res.data == 'success') {
-					alert('수정 완료!');
+					alert('삭제 완료!');
 					router.push('/');
 				} else {
 					throw 'Server Internal Error';
