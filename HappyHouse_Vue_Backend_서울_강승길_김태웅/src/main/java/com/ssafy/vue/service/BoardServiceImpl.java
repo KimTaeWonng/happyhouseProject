@@ -44,8 +44,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	@Transactional
-	public List<Board> searchBoard() {
+	public List<Board> searchBoard(String keyword) {
 		// TODO Auto-generated method stub
-		return boardMapper.searchByName();
+		return boardMapper.searchByName(keyword);
 	}
 }

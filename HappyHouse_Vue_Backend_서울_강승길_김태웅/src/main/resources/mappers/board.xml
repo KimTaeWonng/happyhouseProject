@@ -18,10 +18,10 @@
 		where articleno = #{articleno}
 	</select>
 	
-	<select id="searchByName" resultType="board">
+	<select id="searchByName" parameterType="string" resultType="board">
 		select articleno, subject, userid, content, hit, regtime
 		from board
-		where subject like "%#{keyword}" and "#{keyword}%" and "%#{keyword}%"
+		where subject like concat('%',#{keyword},'%')
 	</select>
 
 	<!-- 게시글 등록 -->

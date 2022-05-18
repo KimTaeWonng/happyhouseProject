@@ -43,9 +43,9 @@ public class BoardController {
     
     @ApiOperation(value = "해당 검색어를 포함한 제목의 모든 게시글을 반환한다.", response = List.class)
 	@GetMapping("search/{keyword}")
-	public ResponseEntity<List<Board>> searchBoard() throws Exception {
+	public ResponseEntity<List<Board>> searchBoard(@PathVariable String keyword) throws Exception {
 		logger.debug("searchBoard - 호출");
-		return new ResponseEntity<List<Board>>(boardService.searchBoard(), HttpStatus.OK);
+		return new ResponseEntity<List<Board>>(boardService.searchBoard(keyword), HttpStatus.OK);
 	}
 
     @ApiOperation(value = "글번호에 해당하는 게시글의 정보를 반환한다.", response = Board.class)    

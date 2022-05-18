@@ -7,6 +7,7 @@
 
 <script>
 import HeaderNavBar from "@/components/HeaderNavBar.vue";
+
 export default {
 	name: "HappyhouseVueApp",
 

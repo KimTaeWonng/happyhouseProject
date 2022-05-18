@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-navbar toggleable="lg" type="dark" variant="info">
-            <b-navbar-brand href="#">Home</b-navbar-brand>
+            <b-navbar-brand @click="home">Home</b-navbar-brand>
 
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -38,7 +38,9 @@ export default {
     },
 
     methods: {
-        
+        home(){
+            window.location.href = '/';
+        }
     },
 };
 </script>
