@@ -17,6 +17,12 @@
 		from board 
 		where articleno = #{articleno}
 	</select>
+	
+	<select id="searchByName" resultType="board">
+		select articleno, subject, userid, content, hit, regtime
+		from board
+		where subject like "%#{keyword}" and "#{keyword}%" and "%#{keyword}%"
+	</select>
 
 	<!-- 게시글 등록 -->
 	<insert id="insertBoard" parameterType="board">
@@ -42,6 +48,7 @@
 		from board 
 		where articleno = #{articleno}
 	</delete>
+	
 
 </mapper>
 

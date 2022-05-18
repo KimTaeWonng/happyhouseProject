@@ -10,4 +10,5 @@ public interface BoardService {
 	public boolean writeBoard(Board board);
 	public boolean updateBoard(Board board);
 	public boolean deleteBoard(int articleno);
+	public List<Board> searchBoard();
 }

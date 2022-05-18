@@ -41,4 +41,11 @@ public class BoardServiceImpl implements BoardService {
 	public boolean deleteBoard(int articleno) {
 		return boardMapper.deleteBoard(articleno) == 1;
 	}
+
+	@Override
+	@Transactional
+	public List<Board> searchBoard() {
+		// TODO Auto-generated method stub
+		return boardMapper.searchByName();
+	}
 }
