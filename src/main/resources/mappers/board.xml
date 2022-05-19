@@ -61,6 +61,11 @@
 			#{subject}, #{userid}, #{content}
 		)
 	</insert>
+	<!--  조회수 증가 -->
+	<update id="updateBoardhit" parameterType="int">
+		update board set hit = hit+1 
+		where articleno = #{articleno}
+	</update>
 	
 	<!-- 게시글 수정 -->
 	<update id="updateBoard" parameterType="board">

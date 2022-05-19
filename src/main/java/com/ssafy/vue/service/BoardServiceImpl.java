@@ -27,6 +27,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public Board detailBoard(int articleno) {
+		boardMapper.updateBoardhit(articleno);
 		return boardMapper.selectBoardByNo(articleno);
 	}
 

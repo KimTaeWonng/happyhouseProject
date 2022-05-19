@@ -16,4 +16,5 @@ public interface BoardMapper {
 	public List<Board> searchByUser(String keyword);
 	public List<Board> searchByContent(String keyword);
 	public List<Board> searchBySubCon(String keyword);
+	public int updateBoardhit(int articleno);
 }
