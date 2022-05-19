@@ -10,5 +10,8 @@ public interface BoardService {
 	public boolean writeBoard(Board board);
 	public boolean updateBoard(Board board);
 	public boolean deleteBoard(int articleno);
-	public List<Board> searchBoard(String keyword);
+	public List<Board> searchBoardBySubject(String keyword);
+	public List<Board> searchBoardByUser(String keyword);
+	public List<Board> searchBoardByContent(String keyword);
+	public List<Board> searchBoardBySubCon(String keyword);
 }

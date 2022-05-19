@@ -18,10 +18,28 @@
 		where articleno = #{articleno}
 	</select>
 	
-	<select id="searchByName" parameterType="string" resultType="board">
+	<select id="searchBySubject" parameterType="string" resultType="board">
 		select articleno, subject, userid, content, hit, regtime
 		from board
 		where subject like concat('%',#{keyword},'%')
+	</select>
+	
+	<select id="searchByUser" parameterType="string" resultType="board">
+		select articleno, subject, userid, content, hit, regtime
+		from board
+		where userid like concat('%',#{keyword},'%')
+	</select>
+	
+	<select id="searchByContent" parameterType="string" resultType="board">
+		select articleno, subject, userid, content, hit, regtime
+		from board
+		where content like concat('%',#{keyword},'%')
+	</select>
+	
+	<select id="searchBySubCon" parameterType="string" resultType="board">
+		select articleno, subject, userid, content, hit, regtime
+		from board
+		where content like concat('%',#{keyword},'%') or subject like concat('%',#{keyword},'%')
 	</select>
 
 	<!-- 게시글 등록 -->

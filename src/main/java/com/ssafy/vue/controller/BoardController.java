@@ -42,10 +42,31 @@ public class BoardController {
 	}
     
     @ApiOperation(value = "해당 검색어를 포함한 제목의 모든 게시글을 반환한다.", response = List.class)
-	@GetMapping("search/{keyword}")
-	public ResponseEntity<List<Board>> searchBoard(@PathVariable String keyword) throws Exception {
+	@GetMapping("search/sub/{keyword}")
+	public ResponseEntity<List<Board>> searchBoardBySubject(@PathVariable String keyword) throws Exception {
 		logger.debug("searchBoard - 호출");
-		return new ResponseEntity<List<Board>>(boardService.searchBoard(keyword), HttpStatus.OK);
+		return new ResponseEntity<List<Board>>(boardService.searchBoardBySubject(keyword), HttpStatus.OK);
+	}
+    
+    @ApiOperation(value = "해당 검색어를 포함한 유저의 모든 게시글을 반환한다.", response = List.class)
+	@GetMapping("search/user/{keyword}")
+	public ResponseEntity<List<Board>> searchBoardByUser(@PathVariable String keyword) throws Exception {
+		logger.debug("searchBoard - 호출");
+		return new ResponseEntity<List<Board>>(boardService.searchBoardByUser(keyword), HttpStatus.OK);
+	}
+    
+    @ApiOperation(value = "해당 검색어를 포함한 내용의 모든 게시글을 반환한다.", response = List.class)
+	@GetMapping("search/con/{keyword}")
+	public ResponseEntity<List<Board>> searchBoardByContent(@PathVariable String keyword) throws Exception {
+		logger.debug("searchBoard - 호출");
+		return new ResponseEntity<List<Board>>(boardService.searchBoardByContent(keyword), HttpStatus.OK);
+	}
+    
+    @ApiOperation(value = "해당 검색어를 포함한 내용 또는 제목의 모든 게시글을 반환한다.", response = List.class)
+	@GetMapping("search/subcon/{keyword}")
+	public ResponseEntity<List<Board>> searchBoardBySubCon(@PathVariable String keyword) throws Exception {
+		logger.debug("searchBoard - 호출");
+		return new ResponseEntity<List<Board>>(boardService.searchBoardBySubCon(keyword), HttpStatus.OK);
 	}
 
     @ApiOperation(value = "글번호에 해당하는 게시글의 정보를 반환한다.", response = Board.class)    

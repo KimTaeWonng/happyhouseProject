@@ -12,5 +12,8 @@ public interface BoardMapper {
 	public int insertBoard(Board board);
 	public int updateBoard(Board board);
 	public int deleteBoard(int articleno);
-	public List<Board> searchByName(String keyword);
+	public List<Board> searchBySubject(String keyword);
+	public List<Board> searchByUser(String keyword);
+	public List<Board> searchByContent(String keyword);
+	public List<Board> searchBySubCon(String keyword);
 }
