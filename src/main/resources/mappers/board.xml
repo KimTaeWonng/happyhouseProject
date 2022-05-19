@@ -6,40 +6,51 @@
 
 	<!-- 게시글 전체 조회 -->
 	<select id="selectBoard" resultType="board">
-		select articleno, userid, subject, content, hit, regtime
-		from board 
+		select b.articleno, b.userid, b.subject, b.content, b.hit, b.regtime, b.hit, count(commentno) as commentCnt
+		from board as b left join comment as c using(articleno)
+		group by articleno
 		order by articleno desc
 	</select>
 	
 	<!-- 게시글 상세 조회 -->
 	<select id="selectBoardByNo" resultType="board">
-		select articleno, subject, userid, content, hit, regtime
-		from board 
-		where articleno = #{articleno}
+		select b.articleno, b.userid, b.subject, b.content, b.hit, b.regtime, b.hit, count(commentno) as commentCnt
+		from board as b left join comment as c using(articleno)
+		group by articleno
+		having articleno = #{articleno}
+		order by articleno desc
 	</select>
 	
 	<select id="searchBySubject" parameterType="string" resultType="board">
-		select articleno, subject, userid, content, hit, regtime
-		from board
-		where subject like concat('%',#{keyword},'%')
+		select b.articleno, b.userid, b.subject, b.content, b.hit, b.regtime, b.hit, count(commentno) as commentCnt
+		from board as b left join comment as c using(articleno)
+		group by articleno
+		having b.subject like concat('%',#{keyword},'%')
+		order by articleno desc
 	</select>
 	
 	<select id="searchByUser" parameterType="string" resultType="board">
-		select articleno, subject, userid, content, hit, regtime
-		from board
-		where userid like concat('%',#{keyword},'%')
+		select b.articleno, b.userid, b.subject, b.content, b.hit, b.regtime, b.hit, count(commentno) as commentCnt
+		from board as b left join comment as c using(articleno)
+		group by articleno
+		having b.userid like concat('%',#{keyword},'%')
+		order by articleno desc
 	</select>
 	
 	<select id="searchByContent" parameterType="string" resultType="board">
-		select articleno, subject, userid, content, hit, regtime
-		from board
-		where content like concat('%',#{keyword},'%')
+		select b.articleno, b.userid, b.subject, b.content, b.hit, b.regtime, b.hit, count(commentno) as commentCnt
+		from board as b left join comment as c using(articleno)
+		group by articleno
+		having b.content like concat('%',#{keyword},'%')
+		order by articleno desc
 	</select>
 	
 	<select id="searchBySubCon" parameterType="string" resultType="board">
-		select articleno, subject, userid, content, hit, regtime
-		from board
-		where content like concat('%',#{keyword},'%') or subject like concat('%',#{keyword},'%')
+		select b.articleno, b.userid, b.subject, b.content, b.hit, b.regtime, b.hit, count(commentno) as commentCnt
+		from board as b left join comment as c using(articleno)
+		group by articleno
+		having b.content like concat('%',#{keyword},'%') or b.subject like concat('%',#{keyword},'%')
+		order by articleno desc
 	</select>
 
 	<!-- 게시글 등록 -->
