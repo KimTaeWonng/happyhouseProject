@@ -21,5 +21,4 @@ public class Comment {
 	private String content;
 	@ApiModelProperty(value = "작성일")
 	private String regtime;
-	
 }

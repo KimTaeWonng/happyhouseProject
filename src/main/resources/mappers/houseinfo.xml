@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.vue.mapper.HouseInfoMapper">
+	<!-- 아파트 정보 전체 조회 -->
+	<select id="selectAll" resultType="HouseInfo">
+		select * from houseinfo
+		limit 1000
+	</select>
+
+	<select id="selectBySido" parameterType="String" resultType="HouseInfo">
+		select * from houseinfo
+		where dongCode like concat(#{sidoCode},"%")
+		limit 1000;
+	</select>
+	
+	<select id="selectByGugun" parameterType="String" resultType="HouseInfo">
+		select * from houseinfo
+		where dongCode like concat(#{gunCode},"%")
+		limit 1000;
+	</select>
+	
+	<select id="selectByDong" parameterType="String" resultType="HouseInfo">
+		select * from houseinfo
+		where dongCode like concat(#{dongCode},"%")
+		limit 1000;
+	</select>
+	
+</mapper>

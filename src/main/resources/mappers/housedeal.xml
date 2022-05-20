@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.vue.mapper.HouseDealMapper">
+	<!-- 아파트 거래 내역 전체 조회 -->
+	<select id="selectAll" resultType="HouseDeal">
+		select * from housedeal limit 1000
+	</select>
+
+	<!-- 아파트 별 거래 내역-->
+	<select id="selectByAptCode" parameterType="String" resultType="HouseDeal">
+		select * from housedeal
+		where aptCode = #{aptCode}
+		limit 5000
+	</select>
+	
+</mapper>
