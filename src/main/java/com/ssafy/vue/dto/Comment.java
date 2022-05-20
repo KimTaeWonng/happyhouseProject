@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @ApiModel(value = "Comment (댓글정보)", description = "작성자아이디, 내용, 작성일")
 public class Comment {
+	@ApiModelProperty(value = "댓글 번호")
+	private String commentno;
 	@ApiModelProperty(value = "작성자아이디")
 	private String userid;
 	@ApiModelProperty(value = "내용")

@@ -34,10 +34,7 @@ public class BoardController {
 	private static final String FAIL = "fail";
 
 	@Autowired
-	private BoardService boardService;
-	
-	@Autowired
-	private CommentService commentService;
+	private BoardService boardService;	
 
     @ApiOperation(value = "모든 게시글의 정보를 반환한다.", response = List.class)
 	@GetMapping
@@ -80,14 +77,6 @@ public class BoardController {
 		logger.debug("detailBoard - 호출");
 		return new ResponseEntity<Board>(boardService.detailBoard(articleno), HttpStatus.OK);
 	}
-    
-    @ApiOperation(value = "글번호에 해당하는 게시글의 댓글을 반환한다.", response = Board.class)    
-   	@GetMapping("comment/{articleno}")
-   	public ResponseEntity<List<Comment>> boardComment(@PathVariable int articleno) {
-   		logger.debug("boardComment - 호출");
-   		
-   		return new ResponseEntity<List<Comment>>(commentService.boardComment(articleno), HttpStatus.OK);
-   	}
 
     @ApiOperation(value = "새로운 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
@@ -119,6 +108,6 @@ public class BoardController {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
-	}
+	}  
     
 }

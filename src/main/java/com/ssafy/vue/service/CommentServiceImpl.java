@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.vue.dto.Comment;
 import com.ssafy.vue.mapper.CommentMapper;
@@ -17,6 +18,27 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public List<Comment> boardComment(int articleno) {
 		return mapper.boardComment(articleno);
+	}
+
+	@Override
+	@Transactional
+	public boolean writeComment(Comment comment) {
+		// TODO Auto-generated method stub
+		return mapper.insertComment(comment) == 1;
+	}
+
+	@Override
+	@Transactional
+	public boolean updateComment(Comment comment) {
+		// TODO Auto-generated method stub
+		return mapper.updateComment(comment) == 1;
+	}
+
+	@Override
+	@Transactional
+	public boolean deleteComment(int commentno) {
+		// TODO Auto-generated method stub
+		return mapper.deleteComment(commentno) == 1;
 	}
 
 }

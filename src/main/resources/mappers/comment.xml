@@ -4,10 +4,34 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.vue.mapper.CommentMapper">
 	<!-- 게시글 전체 조회 -->
-	<select id="boardComment" parameterType="int" resultType="comment">
-		select userid, content, regtime
+	<select id="boardComment" parameterType="int"
+		resultType="comment">
+		select commentno, userid, content, regtime
 		from comment
 		where articleno = #{articleno}
 		order by commentno desc
 	</select>
+
+	<!-- 댓글 쓰기 -->
+	<insert id="insertComment" parameterType="comment">
+		insert into comment(
+		userid, content, regtime
+		) values (
+		#{userid}, #{content}, #{regtime}
+		)
+	</insert>
+	
+	<!-- 댓글 수정 -->
+	<update id="updateComment" parameterType="int">
+		update comment set hit
+		= hit+1
+		where commentno = #{commentno}
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteComment" parameterType="int">
+		delete
+		from comment
+		where commentno = #{commentno}
+	</delete>
 </mapper>
