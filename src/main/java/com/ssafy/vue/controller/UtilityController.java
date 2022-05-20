@@ -12,34 +12,27 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.vue.dto.HouseInfo;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import io.swagger.annotations.ApiOperation;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/utility")
 public class UtilityController {
 	@GetMapping("/news")
+	@ApiOperation(value = "최신 뉴스를 반환한다.", response = Map.class)    
 	public ResponseEntity<List<Map<String,String>>> getNews(){
 		try {
 			//XML 요청 url
-			String url = "https://rss.etoday.co.kr/eto/politics_news.xml";
+			String url = "https://rss.etoday.co.kr/eto/land_news.xml";
 
 			//XML 파싱
 			DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
