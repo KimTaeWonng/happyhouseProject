@@ -5,24 +5,23 @@
 <mapper namespace="com.ssafy.vue.mapper.AddressMapper">
 
 	<select id="selectSidoInput" resultType="InputAddress">
-		select sidocode as code
-		sidoname as name
+		select sidoCode as code,
+		sidoName as name
 		from sido
-		limit 1000
 	</select>
 
 	<select id="selectGugunInput" resultType="InputAddress">
-		select guguncode as
-		code gugunname as name
+		select gugunCode as
+		code, gugunName as name
 		from gugun
-		where gugun.sidocode = ${sidocode}
+		where gugun.sidoCode = ${sidocode}
 	</select>
 
 	<select id="selectDongInput" resultType="InputAddress">
-		select dongcode as code
-		dongname as name
+		select dongCode as code,
+		dongName as name
 		from dong
-		where dong.guguncode = ${guguncode}
+		where dong.gugunCode = ${guguncode}
 	</select>
 
 

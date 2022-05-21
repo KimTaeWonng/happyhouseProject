@@ -39,14 +39,14 @@ public class AddressController {
 	}
 	
 	@ApiOperation(value = "시,도에 존재하는 구,군 이름 반환", response = List.class)
-	@GetMapping("{sidocode}")
+	@GetMapping("/gugun/{sidocode}")
 	public ResponseEntity<List<InputAddress>> selectGugun(@PathVariable String sidocode) throws Exception {
 		logger.debug("selectSido - 호출");
 		return new ResponseEntity<List<InputAddress>>(addressService.selectGugun(sidocode), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "시,도 이름 반환", response = List.class)
-	@GetMapping("{guguncode}")
+	@GetMapping("/dong/{guguncode}")
 	public ResponseEntity<List<InputAddress>> selectDong(@PathVariable String guguncode) throws Exception {
 		logger.debug("selectSido - 호출");
 		return new ResponseEntity<List<InputAddress>>(addressService.selectDong(guguncode), HttpStatus.OK);
