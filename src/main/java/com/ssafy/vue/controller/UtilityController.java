@@ -32,7 +32,7 @@ public class UtilityController {
 	public ResponseEntity<List<Map<String,String>>> getNews(){
 		try {
 			//XML 요청 url
-			String url = "https://rss.etoday.co.kr/eto/land_news.xml";
+			String url = "https://www.mk.co.kr/rss/50300009";
 
 			//XML 파싱
 			DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
@@ -49,8 +49,8 @@ public class UtilityController {
                 
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
+                    article.put("title", getValue("title", element));
                     article.put("link", getValue("link", element));
-                    article.put("dc:date", getValue("dc:date", element));
                     article.put("description", getValue("description", element));
                 }
                 articles.add(article);
