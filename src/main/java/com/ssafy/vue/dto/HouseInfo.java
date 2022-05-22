@@ -35,4 +35,6 @@ public class HouseInfo {
 	private float lat;
 	@ApiModelProperty(value = "경도")
 	private float lng;
+	@ApiModelProperty(value = "거래 내역 갯수")
+	private String dealCount;
 }
