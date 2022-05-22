@@ -9,4 +9,5 @@ public interface HouseInfoMapper {
 	public List<HouseInfo> selectBySido(String sido);
 	public List<HouseInfo> selectByGugun(String Gugun);
 	public List<HouseInfo> selectByDong(String dong);
+	public HouseInfo selectByid(String aptCode);
 }

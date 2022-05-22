@@ -33,5 +33,10 @@ public class HouseInfoServiceImpl implements HouseInfoService {
 	public List<HouseInfo> selectByDong(String dong) {
 		return mapper.selectByDong(dong);
 	}
+	
+	@Override
+	public HouseInfo selectByid(String aptCode) {
+		return mapper.selectByid(aptCode);
+	}
 
 }

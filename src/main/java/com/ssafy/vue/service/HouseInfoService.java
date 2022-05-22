@@ -8,4 +8,5 @@ public interface HouseInfoService {
 	public List<HouseInfo> selectBySido(String sido);
 	public List<HouseInfo> selectByGugun(String gun);
 	public List<HouseInfo> selectByDong(String dong);
+	public HouseInfo selectByid(String aptCode);
 }

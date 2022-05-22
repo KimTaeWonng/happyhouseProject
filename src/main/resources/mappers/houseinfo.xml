@@ -10,6 +10,19 @@
 		group by aptcode
 		limit 1000
 	</select>
+	
+	<!-- aptcode에 맞는 아파트 정보 조회 -->
+	<select id="selectByid" parameterType="String" resultType="HouseInfo">
+		select h.aptCode, h.buildYear, h.roadName, h.roadNameBonbun, h.roadNameBubun, h.dong, h.dongCode, h.apartmentName, h.jibun, h.lat, h.lng, count(no) as dealCount
+		from (
+			select * 
+			from houseinfo 
+			where aptCode = #{aptCode}
+		)as h 
+		left join housedeal
+		using (aptcode)
+		group by aptcode
+	</select>
 
 	<select id="selectBySido" parameterType="String" resultType="HouseInfo">
 		select h.aptCode, h.buildYear, h.roadName, h.roadNameBonbun, h.roadNameBubun, h.dong, h.dongCode, h.apartmentName, h.jibun, h.lat, h.lng, count(no) as dealCount
@@ -21,7 +34,7 @@
 		left join housedeal 
 		using (aptcode)
 		group by aptcode
-		limit 1000;
+		limit 1000
 	</select>
 	
 	<select id="selectByGugun" parameterType="String" resultType="HouseInfo">
@@ -34,7 +47,7 @@
 		left join housedeal 
 		using (aptcode)
 		group by aptcode
-		limit 1000;
+		limit 1000
 	</select>
 	
 	<select id="selectByDong" parameterType="String" resultType="HouseInfo">		
@@ -47,7 +60,7 @@
 		left join housedeal 
 		using (aptcode)
 		group by aptcode
-		limit 1000;
+		limit 1000
 	</select>
 	
 </mapper>

@@ -45,13 +45,20 @@ public class HouseController {
 	
 	
 	@GetMapping("/houseinfo/getAll")
-	@ApiOperation(value = "모든 집 정보를 반환한다. 47000건 ", response = HouseInfo.class)    
+	@ApiOperation(value = "모든 집 정보를 반환한다. 최대 1000건까지 제공 ", response = HouseInfo.class)    
 	public ResponseEntity<List<HouseInfo>> houseInfoSelectAll(){
 		logger.debug("모든 집 정보 얻기");
    		return new ResponseEntity<List<HouseInfo>>(houseInfoService.selectAll(), HttpStatus.OK);
 	}
 	
 	
+	@GetMapping("/houseinfo/{aptCode}")
+	@ApiOperation(value = "해당 아파트의 정보를 반환한다", response = HouseInfo.class)    
+	public ResponseEntity<HouseInfo> selectByAptCode(@PathVariable String aptCode){
+		logger.debug(aptCode + " 정보 얻기");
+   		return new ResponseEntity<HouseInfo>(houseInfoService.selectByid(aptCode), HttpStatus.OK);
+	}
+
 	@PostMapping("/houseinfo/getAll")
 	@ApiOperation(value = "선택한 지역에 맞는 정보를 반환한다. sido, gugun, dong을 json으로 전달해야됨 ", response = HouseInfo.class)    
 	public ResponseEntity<List<HouseInfo>> houseInfoByLocation(@RequestBody Map<String, String> payload){
