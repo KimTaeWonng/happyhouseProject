@@ -110,4 +110,11 @@ public class BoardController {
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}  
     
+    
+    @ApiOperation(value = "조회수 기준으로 인기글 10개를 반환한다.", response = List.class)
+	@GetMapping("board/popular")
+	public ResponseEntity<List<Board>> getPopularBoard() throws Exception {
+		logger.debug("getPopularBoard - 호출");
+		return new ResponseEntity<List<Board>>(boardService.getPopularBoard(), HttpStatus.OK);
+	}
 }

@@ -14,4 +14,5 @@ public interface BoardService {
 	public List<Board> searchBoardByUser(String keyword);
 	public List<Board> searchBoardByContent(String keyword);
 	public List<Board> searchBoardBySubCon(String keyword);
+	public List<Board> getPopularBoard();
 }

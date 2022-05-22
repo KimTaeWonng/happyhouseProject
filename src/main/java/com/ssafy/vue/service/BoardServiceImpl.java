@@ -69,4 +69,8 @@ public class BoardServiceImpl implements BoardService {
 		// TODO Auto-generated method stub
 		return boardMapper.searchBySubCon(keyword);
 	}
+	@Override
+	public List<Board> getPopularBoard(){
+		return boardMapper.getPopularBoard();
+	}
 }

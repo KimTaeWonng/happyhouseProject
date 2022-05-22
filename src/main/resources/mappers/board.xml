@@ -83,6 +83,14 @@
 		where articleno = #{articleno}
 	</delete>
 	
+	
+	<!-- 인기 게시글 top 10 조회 -->
+	<select id="getPopularBoard" resultType="board">
+		select b.articleno, b.userid, b.subject, b.content, b.hit, b.regtime, b.hit, count(commentno) as commentCnt
+		from board as b left join comment as c using(articleno)
+		group by articleno
+		order by hit desc limit 10
+	</select>
 
 </mapper>
 

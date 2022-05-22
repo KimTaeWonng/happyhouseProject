@@ -17,4 +17,5 @@ public interface BoardMapper {
 	public List<Board> searchByContent(String keyword);
 	public List<Board> searchBySubCon(String keyword);
 	public int updateBoardhit(int articleno);
+	public List<Board> getPopularBoard();
 }
