@@ -17,8 +17,8 @@
 	</select>
 	
 	<insert id="regist" parameterType="memberDto">
-		insert into member (userid, username, password, email)
-		value (${userid}, ${username} , ${password} , ${email});
+		insert into member (userid, username, userpwd, email)
+		value (#{userid}, #{username} , #{userpwd} , #{email} );
 	</insert>
 	
 </mapper>
