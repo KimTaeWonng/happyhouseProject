@@ -6,7 +6,7 @@
 	<!-- 게시글 전체 조회 -->
 	<select id="boardComment" parameterType="int"
 		resultType="comment">
-		select commentno, userid, content, regtime
+		select commentno, articleno, userid, content, regtime
 		from comment
 		where articleno = #{articleno}
 		order by commentno desc

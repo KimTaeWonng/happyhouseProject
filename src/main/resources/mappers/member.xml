@@ -17,7 +17,7 @@
 	</select>
 	
 	<insert id="regist" parameterType="memberDto">
-		insert into member (userid, username, userpwd, email)
+		insert into ssafy_member (userid, username, userpwd, email)
 		value (#{userid}, #{username} , #{userpwd} , #{email} );
 	</insert>
 	

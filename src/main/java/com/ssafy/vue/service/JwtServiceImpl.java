@@ -24,7 +24,7 @@ public class JwtServiceImpl implements JwtService {
 
 	public static final Logger logger = LoggerFactory.getLogger(JwtServiceImpl.class);
 
-	private static final String SALT = "ssafySecret";
+	private static final String SALT = "E4jb#jc;s$if422jjDFEFJJ33jJEFdd#kd";
 	private static final int EXPIRE_MINUTES = 60;
 
 	@Override
@@ -72,7 +72,7 @@ public class JwtServiceImpl implements JwtService {
 	public Map<String, Object> get(String key) {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
 				.getRequest();
-		String jwt = request.getHeader("access-token");
+		String jwt = request.getHeader("Authorization");
 		Jws<Claims> claims = null;
 		try {
 			claims = Jwts.parser().setSigningKey(SALT.getBytes("UTF-8")).parseClaimsJws(jwt);
