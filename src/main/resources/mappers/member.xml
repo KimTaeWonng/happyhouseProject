@@ -16,4 +16,9 @@
 		where userid = #{userid}
 	</select>
 	
+	<insert id="regist" parameterType="memberDto">
+		insert into member (userid, username, password, email)
+		value (${userid}, ${username} , ${password} , ${email});
+	</insert>
+	
 </mapper>

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.vue.dto.Board;
 import com.ssafy.vue.dto.MemberDto;
 import com.ssafy.vue.service.JwtServiceImpl;
 import com.ssafy.vue.service.MemberService;
@@ -94,5 +95,15 @@ public class MemberController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+	
+	 @ApiOperation(value = "회원등록.", response = String.class)
+		@PostMapping
+		public ResponseEntity<String> regist(@RequestBody MemberDto memberDto) throws Exception {
+			logger.debug("writeBoard - 호출");
+			if (memberService.regist(memberDto)) {
+				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			}
+			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		}
 
 }

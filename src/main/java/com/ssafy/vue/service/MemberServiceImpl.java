@@ -24,4 +24,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberMapper.userInfo(userid);
 	}
 
+	@Override
+	public boolean regist(MemberDto memberDto) throws Exception {
+		// TODO Auto-generated method stub
+		return memberMapper.regist(memberDto) == 1;
+	}
+
 }
