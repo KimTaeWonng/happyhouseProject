@@ -15,9 +15,9 @@
 	<!-- 댓글 쓰기 -->
 	<insert id="insertComment" parameterType="comment">
 		insert into comment(
-		articleno, userid, content, regtime
+		articleno, userid, content
 		) values (
-		#{articleno}, #{userid}, #{content}, #{regtime}
+		#{articleno}, #{userid}, #{content}
 		)
 	</insert>
 	
