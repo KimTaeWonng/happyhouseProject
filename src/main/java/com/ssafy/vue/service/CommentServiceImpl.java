@@ -1,5 +1,6 @@
 package com.ssafy.vue.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,33 +17,33 @@ public class CommentServiceImpl implements CommentService {
 	private CommentMapper mapper;
 	
 	@Override
-	public List<Comment> boardComment(int articleno) {
+	public List<Comment> boardComment(int articleno) throws SQLException{
 		return mapper.boardComment(articleno);
 	}
 
 	@Override
 	@Transactional
-	public boolean writeComment(Comment comment) {
+	public int writeComment(Comment comment) throws SQLException {
 		// TODO Auto-generated method stub
-		return mapper.insertComment(comment) == 1;
+		return mapper.insertComment(comment);
 	}
 
 	@Override
 	@Transactional
-	public boolean deleteComment(int commentno) {
+	public boolean deleteComment(int commentno) throws SQLException {
 		// TODO Auto-generated method stub
 		return mapper.deleteComment(commentno) == 1;
 	}
 
 	@Override
 	@Transactional
-	public boolean changeComment(Comment comment) {
+	public boolean changeComment(Comment comment) throws SQLException {
 		return mapper.changeComment(comment) == 1;
 		
 	}
 
 	@Override
-	public Comment select(int commentno) {
+	public Comment select(int commentno) throws SQLException {
 		return mapper.select(commentno);
 	}
 

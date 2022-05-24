@@ -1,5 +1,7 @@
 package com.ssafy.vue.controller;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +54,11 @@ public class CommentContorller {
    		if (!jwtService.isUsable(request.getHeader("Authorization"))){
    			result.put("Authorization", null);
    		}
-   		result.put("message", commentService.boardComment(articleno));
+   		try {
+   			result.put("message", commentService.boardComment(articleno));
+		} catch (Exception e) {
+			result.put("message", new ArrayList());
+		}
    		return new ResponseEntity<Map<String,Object>>(result, HttpStatus.OK);
    	}
     
@@ -67,7 +73,13 @@ public class CommentContorller {
    			result.put("message","error");
    		}else {
    			if(jwtService.getUserId().equals(comment.getUserid())) {
-   				result.put("message", commentService.writeComment(comment) ? "success" : "error");
+   				try {
+   					result.put("commentno", commentService.writeComment(comment));
+   					result.put("message", "success");
+				} catch (Exception e) {
+					e.printStackTrace();
+					result.put("message","error");
+				}
    			}else {
    				result.put("message","error");
    			}
@@ -77,7 +89,7 @@ public class CommentContorller {
     
     @ApiOperation(value = "게시글의 댓글을 수정한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping("{commentno}")
-	public ResponseEntity<Map<String, Object>> updateComment(@RequestBody Comment comment, HttpServletRequest request) {
+	public ResponseEntity<Map<String, Object>> updateComment(@RequestBody Comment comment, HttpServletRequest request) throws SQLException {
     	
     	logger.debug("updateComment - 호출");
     	Map<String,Object> result = new HashMap<String, Object>();
@@ -96,14 +108,13 @@ public class CommentContorller {
     
     @ApiOperation(value = "게시글의 댓글을 삭제한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@DeleteMapping("{commentno}")
-	public ResponseEntity<Map<String, Object>> deleteComment(@PathVariable int commentno, HttpServletRequest request) {
+	public ResponseEntity<Map<String, Object>> deleteComment(@PathVariable int commentno, HttpServletRequest request) throws SQLException {
     	logger.debug("deleteComment - 호출");
     	Map<String,Object> result = new HashMap<String, Object>();
     	if (!jwtService.isUsable(request.getHeader("Authorization"))){
    			result.put("Authorization", null);
    			result.put("message","error");
    		}else {
-   			
    			if(jwtService.getUserId().equals(commentService.select(commentno).getUserid())) {
    				result.put("message", commentService.deleteComment(commentno) ? "success" : "error");
    			}else {
