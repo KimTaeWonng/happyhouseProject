@@ -10,9 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,37 +68,124 @@ public class MemberController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	@ApiOperation(value = "회원인증", notes = "토큰으로 인증된 사용자에게 비밀번호를 제외한 회원 정보를 반환한다.", response = Map.class)
+	@ApiOperation(value = "회원정보", notes = "요청한 정보와 토큰 정보가 일치할 경우 비밀번호를 제외한 회원 정보를 반환한다.", response = Map.class)
 	@GetMapping("/info/{userid}")
 	public ResponseEntity<Map<String, Object>> getInfo(@PathVariable("userid") @ApiParam(value = "인증할 회원의 아이디.", required = true) String userid,
 			HttpServletRequest request) {
-//		logger.debug("userid : {} ", userid);
-		Map<String, Object> resultMap = new HashMap<>();
+		//logger.debug("userid : {} ", userid);
+		Map<String, Object> result = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		if (jwtService.isUsable(request.getHeader("Authorization"))) {
-			logger.info("사용 가능한 토큰!!!");
-			try {
-//				로그인 사용자 정보.
-				MemberDto memberDto = memberService.userInfo(userid);
-				resultMap.put("userInfo", memberDto);
-				resultMap.put("message", SUCCESS);
-				status = HttpStatus.ACCEPTED;
-			} catch (Exception e) {
-				logger.error("정보조회 실패 : {}", e);
-				resultMap.put("message", e.getMessage());
-				status = HttpStatus.INTERNAL_SERVER_ERROR;
+			if(jwtService.getUserId().equals(userid)) {
+				// 유효한 토큰에 자기 정보 요청 맞을경우
+				try {
+					//	로그인 사용자 정보.
+					MemberDto memberDto = memberService.userInfo(userid);
+					result.put("userInfo", memberDto);
+					result.put("message", SUCCESS);
+					status = HttpStatus.ACCEPTED;
+				} catch (Exception e) {
+					logger.error("정보조회 실패 : {}", e);
+					result.put("message", e.getMessage());
+					status = HttpStatus.ACCEPTED;
+				}
+			}else {
+				// 토큰 정보랑 불일치 할 경우
+				result.put("message", FAIL);
 			}
-		} else {
-			logger.error("사용 불가능 토큰!!!");
-			resultMap.put("message", FAIL);
-			status = HttpStatus.ACCEPTED;
+		
+		}else {
+			// 토근 자체가 유효하지 않음
+			result.put("Authorization", null);
+			result.put("message", FAIL);
 		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
 	
+	@ApiOperation(value = "회원정보", notes = "요청한 정보와 토큰 정보가 일치할 경우 회원 정보를 업데이트 한다.", response = Map.class)
+	@PutMapping("/info/{userid}")
+	public ResponseEntity<Map<String, Object>> updateInfo(@PathVariable("userid") @ApiParam(value = "인증할 회원의 아이디.", required = true) String userid,
+			@RequestBody MemberDto modifiedMember, HttpServletRequest request) {
+		//logger.debug("userid : {} ", userid);
+		Map<String, Object> result = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		if (jwtService.isUsable(request.getHeader("Authorization"))) {
+			if(jwtService.getUserId().equals(userid)) {
+				// 유효한 토큰에 자기 정보 요청 맞을경우
+				try {
+					//	로그인 사용자 정보.
+					memberService.updateMember(modifiedMember);
+					result.put("message", SUCCESS);
+					status = HttpStatus.ACCEPTED;
+				} catch (Exception e) {
+					logger.error("회원 정보 업데이트 실패: {}", e);
+					result.put("message", e.getMessage());
+					status = HttpStatus.ACCEPTED;
+				}
+			}else {
+				// 토큰 정보랑 불일치 할 경우
+				result.put("message", FAIL);
+			}
+		
+		}else {
+			// 토근 자체가 유효하지 않음
+			result.put("Authorization", null);
+			result.put("message", FAIL);
+		}
+		return new ResponseEntity<Map<String, Object>>(result, status);
+	}
 	
+	@ApiOperation(value = "회원정보", notes = "요청한 정보와 토큰 정보가 일치할 경우 회원 정보를 삭제 한다.", response = Map.class)
+	@DeleteMapping("/info/{userid}")
+	public ResponseEntity<Map<String, Object>> deleteInfo(@PathVariable("userid") @ApiParam(value = "인증할 회원의 아이디.", required = true) String userid,
+			HttpServletRequest request) {
+		//logger.debug("userid : {} ", userid);
+		Map<String, Object> result = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		if (jwtService.isUsable(request.getHeader("Authorization"))) {
+			if(jwtService.getUserId().equals(userid)) {
+				// 유효한 토큰에 자기 정보 요청 맞을경우
+				try {
+					//	로그인 사용자 정보.
+					memberService.deleteMember(userid);
+					result.put("message", SUCCESS);
+					result.put("Authorization", null);
+					status = HttpStatus.ACCEPTED;
+				} catch (Exception e) {
+					logger.error("회원 정보 삭제 실패: {}", e);
+					result.put("message", e.getMessage());
+					status = HttpStatus.ACCEPTED;
+				}
+			}else {
+				// 토큰 정보랑 불일치 할 경우
+				result.put("message", FAIL);
+			}
+		
+		}else {
+			// 토근 자체가 유효하지 않음
+			result.put("Authorization", null);
+			result.put("message", FAIL);
+		}
+		return new ResponseEntity<Map<String, Object>>(result, status);
+	}
 	
-	@ApiOperation(value = "회원인증", notes = "토큰으로 인증된 사용자에게 비밀번호를 제외한 회원 정보를 반환한다.", response = Map.class)
+	@ApiOperation(value = "아이디 중복 확인", notes = "해당 아이디를 사용할 수 있는지 확인한다. true면 사용가능.", response = Map.class)
+	@GetMapping("/idcheck/{userid}")
+	public ResponseEntity<Map<String,Object>> checkID(@PathVariable("userid") @ApiParam(value = "중복체크할 아이디.", required = true) String userid) {
+		Map<String,Object> result = new HashMap<>();
+		try {
+			if(memberService.userInfo(userid) == null) {
+				result.put("result", true);
+			}else {
+				result.put("result", false);
+			}
+		} catch (Exception e) {
+			result.put("result", "Internal Error");
+		}
+		return new ResponseEntity<Map<String,Object>>(result, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "토큰 검증", notes = "토큰 유효성 검사", response = Map.class)
 	@GetMapping("/valid")
 	public ResponseEntity<Map<String,Object>> tokenValidation(HttpServletRequest request) {
 		logger.info("tokenValidation");

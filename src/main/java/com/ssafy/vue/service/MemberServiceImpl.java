@@ -30,4 +30,14 @@ public class MemberServiceImpl implements MemberService {
 		return memberMapper.regist(memberDto) == 1;
 	}
 
+	@Override
+	public int updateMember(MemberDto memberDto) throws Exception {
+		return memberMapper.updateMember(memberDto);
+	}
+
+	@Override
+	public int deleteMember(String userid) throws Exception {
+		return memberMapper.deleteMember(userid);
+	}
+
 }

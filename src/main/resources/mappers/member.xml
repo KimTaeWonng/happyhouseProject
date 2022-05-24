@@ -21,4 +21,17 @@
 		value (#{userid}, #{username} , #{userpwd} , #{email} );
 	</insert>
 	
+	<update id="updateMember" parameterType="MemberDto">
+		UPDATE ssafy_member SET 
+		username = #{username},
+		userpwd = #{userpwd}
+		WHERE userid = #{userid}
+	</update>
+	
+	<delete id="deleteMember" parameterType="string">
+		delete from ssafy_member 
+		where userid = #{userid};
+	</delete>
+	
+	
 </mapper>
