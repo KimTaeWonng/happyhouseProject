@@ -7,6 +7,7 @@ import com.ssafy.vue.dto.Comment;
 
 public interface CommentService {
 	public List<Comment> boardComment(int articleno);
+	public Comment select(int commentno);
 	public boolean writeComment(Comment comment);
 	public boolean changeComment(Comment comment);
 	public boolean deleteComment(int commentno);

@@ -28,12 +28,17 @@
 		where	commentno = #{commentno}
 	</update>
 	
-	
 	<!-- 댓글 삭제 -->
 	<delete id="deleteComment" parameterType="int">
 		delete
 		from comment
 		where commentno = #{commentno}
 	</delete>
+	
+	<select id="select" parameterType="int">
+		select *
+		from comment
+		where commentno = #{commentno} 
+	</select>
 	
 </mapper>

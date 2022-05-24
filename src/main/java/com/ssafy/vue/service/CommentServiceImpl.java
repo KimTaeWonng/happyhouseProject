@@ -41,4 +41,9 @@ public class CommentServiceImpl implements CommentService {
 		
 	}
 
+	@Override
+	public Comment select(int commentno) {
+		return mapper.select(commentno);
+	}
+
 }

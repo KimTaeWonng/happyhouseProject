@@ -1,6 +1,10 @@
 package com.ssafy.vue.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +25,7 @@ import com.ssafy.vue.dto.Board;
 import com.ssafy.vue.dto.Comment;
 import com.ssafy.vue.service.BoardService;
 import com.ssafy.vue.service.CommentService;
+import com.ssafy.vue.service.JwtService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -35,6 +40,9 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;	
+	
+	@Autowired
+	private JwtService jwtService;
 
     @ApiOperation(value = "모든 게시글의 정보를 반환한다.", response = List.class)
 	@GetMapping
@@ -80,34 +88,59 @@ public class BoardController {
 
     @ApiOperation(value = "새로운 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
-	public ResponseEntity<String> writeBoard(@RequestBody Board board) {
-		logger.debug("writeBoard - 호출");
-		if (boardService.writeBoard(board)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	public ResponseEntity<Map<String,Object>> writeBoard(@RequestBody Board board, HttpServletRequest request) {
+    	logger.debug("writeBoard - 호출");
+    	Map<String,Object> result = new HashMap<String, Object>();
+    	if (!jwtService.isUsable(request.getHeader("Authorization"))){
+   			result.put("Authorization", null);
+   			result.put("message","error");
+   		}else {
+   			if(jwtService.getUserId().equals(board.getUserid())) {
+   				result.put("message",boardService.writeBoard(board) ? "success" : "error");
+   			}else {
+   				result.put("message","error");
+   			}
+   		}
+		return new ResponseEntity<Map<String,Object>>(result, HttpStatus.OK);
 	}
 
     @ApiOperation(value = "글번호에 해당하는 게시글의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping("{articleno}")
-	public ResponseEntity<String> updateBoard(@RequestBody Board board) {
-		logger.debug("updateBoard - 호출");
-		logger.debug("" + board);
-		
-		if (boardService.updateBoard(board)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	public ResponseEntity<Map<String,Object>> updateBoard(@RequestBody Board board, HttpServletRequest request) {
+    	
+    	logger.debug("updateBoard - 호출");
+    	Map<String,Object> result = new HashMap<String, Object>();
+    	if (!jwtService.isUsable(request.getHeader("Authorization"))){
+   			result.put("Authorization", null);
+   			result.put("message","error");
+   		}else {
+   			if(jwtService.getUserId().equals(board.getUserid())) {
+   				result.put("message",boardService.updateBoard(board) ? "success" : "error");
+   			}else {
+   				result.put("message","error");
+   			}
+   		}
+		return new ResponseEntity<Map<String,Object>>(result, HttpStatus.OK);
 	}
 
     @ApiOperation(value = "글번호에 해당하는 게시글의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@DeleteMapping("{articleno}")
-	public ResponseEntity<String> deleteBoard(@PathVariable int articleno) {
+	public ResponseEntity<Map<String,Object>> deleteBoard(@PathVariable int articleno, HttpServletRequest request) {
 		logger.debug("deleteBoard - 호출");
-		if (boardService.deleteBoard(articleno)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		
+    	Map<String,Object> result = new HashMap<String, Object>();
+    	if (!jwtService.isUsable(request.getHeader("Authorization"))){
+   			result.put("Authorization", null);
+   			result.put("message","error");
+   		}else {
+   			
+   			if(jwtService.getUserId().equals(boardService.detailBoard(articleno).getUserid())) {
+   				result.put("message",boardService.deleteBoard(articleno) ? "success" : "error");
+   			}else {
+   				result.put("message","error");
+   			}
+   		}
+		return new ResponseEntity<Map<String,Object>>(result, HttpStatus.OK);
 	}  
     
     

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.vue.dto.Board;
 import com.ssafy.vue.dto.Comment;
 import com.ssafy.vue.service.CommentService;
+import com.ssafy.vue.service.JwtService;
+import com.ssafy.vue.service.JwtServiceImpl;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -36,54 +40,76 @@ public class CommentContorller {
 	
 	@Autowired
 	private CommentService commentService;
+	
+	@Autowired
+	private JwtService jwtService;
 
     @ApiOperation(value = "글번호에 해당하는 게시글의 댓글을 반환한다.", response = Board.class)    
    	@GetMapping("{articleno}")
-   	public ResponseEntity<List<Comment>> boardComment(@PathVariable int articleno) {
+   	public ResponseEntity<Map<String,Object>> boardComment(@PathVariable int articleno, HttpServletRequest request) {
    		logger.debug("boardComment - 호출");
-   		
-   		return new ResponseEntity<List<Comment>>(commentService.boardComment(articleno), HttpStatus.OK);
+   		Map<String,Object> result = new HashMap<String, Object>();
+   		if (!jwtService.isUsable(request.getHeader("Authorization"))){
+   			result.put("Authorization", null);
+   		}
+   		result.put("message", commentService.boardComment(articleno));
+   		return new ResponseEntity<Map<String,Object>>(result, HttpStatus.OK);
    	}
     
-//    @ApiOperation(value = "게시글의 댓글을 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-//	@PostMapping
-//	public ResponseEntity<Map<String, Object>> writeComment(@RequestBody Comment comment) {
-//    	
-//    	Map<String, Object> resultMap = new HashMap<>();
-//    	HttpStatus status = null;
-// 	
-////		logger.debug("writeComment - 호출");
-////		if (commentService.writeComment(comment)) {
-////			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-////		}
-////		return new ResponseEntity<Map<String, Object>>(FAIL, HttpStatus.NO_CONTENT);
-//	}
+    @ApiOperation(value = "게시글의 댓글을 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PostMapping
+	public ResponseEntity<Map<String, Object>> writeComment(@RequestBody Comment comment, HttpServletRequest request) {
+    	
+    	logger.debug("writeComment - 호출");
+    	Map<String,Object> result = new HashMap<String, Object>();
+    	if (!jwtService.isUsable(request.getHeader("Authorization"))){
+   			result.put("Authorization", null);
+   			result.put("message","error");
+   		}else {
+   			if(jwtService.getUserId().equals(comment.getUserid())) {
+   				result.put("message", commentService.writeComment(comment) ? "success" : "error");
+   			}else {
+   				result.put("message","error");
+   			}
+   		}
+		return new ResponseEntity<Map<String,Object>>(result, HttpStatus.OK);
+	}
     
-//    @ApiOperation(value = "게시글의 댓글을 수정한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-//	@PutMapping("{commentno}")
-//	public ResponseEntity<Map<String, Object>> updateComment(@RequestBody Comment comment) {
-//    	
-//    	Map<String, Object> resultMap = new HashMap<>();
-//    	HttpStatus status = null;
-//    	
-////		logger.debug("updateComment - 호출");
-////		if (commentService.changeComment(comment)) {
-////			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-////		}
-////		return new ResponseEntity<Map<String, Object>>(FAIL, HttpStatus.NO_CONTENT);
-//	}
+    @ApiOperation(value = "게시글의 댓글을 수정한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PutMapping("{commentno}")
+	public ResponseEntity<Map<String, Object>> updateComment(@RequestBody Comment comment, HttpServletRequest request) {
+    	
+    	logger.debug("updateComment - 호출");
+    	Map<String,Object> result = new HashMap<String, Object>();
+    	if (!jwtService.isUsable(request.getHeader("Authorization"))){
+   			result.put("Authorization", null);
+   			result.put("message","error");
+   		}else {
+   			if(jwtService.getUserId().equals(comment.getUserid())) {
+   				result.put("message", commentService.changeComment(comment) ? "success" : "error");
+   			}else {
+   				result.put("message","error");
+   			}
+   		}
+		return new ResponseEntity<Map<String,Object>>(result, HttpStatus.OK);
+	}
     
-//    @ApiOperation(value = "게시글의 댓글을 삭제한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-//	@DeleteMapping("{commentno}")
-//	public ResponseEntity<Map<String, Object>> deleteComment(@PathVariable int commentno) {
-//    	
-//    	Map<String, Object> resultMap = new HashMap<>();
-//    	HttpStatus status = null;
-//    	
-////		logger.debug("deleteComment - 호출");
-////		if (commentService.deleteComment(commentno)) {
-////			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-////		}
-////		return new ResponseEntity<Map<String, Object>>(FAIL, HttpStatus.NO_CONTENT);
-//	}
+    @ApiOperation(value = "게시글의 댓글을 삭제한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@DeleteMapping("{commentno}")
+	public ResponseEntity<Map<String, Object>> deleteComment(@PathVariable int commentno, HttpServletRequest request) {
+    	logger.debug("deleteComment - 호출");
+    	Map<String,Object> result = new HashMap<String, Object>();
+    	if (!jwtService.isUsable(request.getHeader("Authorization"))){
+   			result.put("Authorization", null);
+   			result.put("message","error");
+   		}else {
+   			
+   			if(jwtService.getUserId().equals(commentService.select(commentno).getUserid())) {
+   				result.put("message", commentService.deleteComment(commentno) ? "success" : "error");
+   			}else {
+   				result.put("message","error");
+   			}
+   		}
+		return new ResponseEntity<Map<String,Object>>(result, HttpStatus.OK);
+	}
 }
