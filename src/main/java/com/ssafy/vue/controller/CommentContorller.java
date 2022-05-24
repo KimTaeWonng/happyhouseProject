@@ -1,6 +1,8 @@
 package com.ssafy.vue.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,31 +47,43 @@ public class CommentContorller {
     
     @ApiOperation(value = "게시글의 댓글을 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
-	public ResponseEntity<String> writeComment(@RequestBody Comment comment) {
-		logger.debug("writeComment - 호출");
-		if (commentService.writeComment(comment)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	public ResponseEntity<Map<String, Object>> writeComment(@RequestBody Comment comment) {
+    	
+    	Map<String, Object> resultMap = new HashMap<>();
+    	HttpStatus status = null;
+ 	
+//		logger.debug("writeComment - 호출");
+//		if (commentService.writeComment(comment)) {
+//			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+//		}
+//		return new ResponseEntity<Map<String, Object>>(FAIL, HttpStatus.NO_CONTENT);
 	}
     
     @ApiOperation(value = "게시글의 댓글을 수정한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping("{commentno}")
-	public ResponseEntity<String> updateComment(@RequestBody Comment comment) {
-		logger.debug("updateComment - 호출");
-		if (commentService.changeComment(comment)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	public ResponseEntity<Map<String, Object>> updateComment(@RequestBody Comment comment) {
+    	
+    	Map<String, Object> resultMap = new HashMap<>();
+    	HttpStatus status = null;
+    	
+//		logger.debug("updateComment - 호출");
+//		if (commentService.changeComment(comment)) {
+//			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+//		}
+//		return new ResponseEntity<Map<String, Object>>(FAIL, HttpStatus.NO_CONTENT);
 	}
     
     @ApiOperation(value = "게시글의 댓글을 삭제한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@DeleteMapping("{commentno}")
-	public ResponseEntity<String> deleteComment(@PathVariable int commentno) {
-		logger.debug("deleteComment - 호출");
-		if (commentService.deleteComment(commentno)) {
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		}
-		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	public ResponseEntity<Map<String, Object>> deleteComment(@PathVariable int commentno) {
+    	
+    	Map<String, Object> resultMap = new HashMap<>();
+    	HttpStatus status = null;
+    	
+//		logger.debug("deleteComment - 호출");
+//		if (commentService.deleteComment(commentno)) {
+//			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+//		}
+//		return new ResponseEntity<Map<String, Object>>(FAIL, HttpStatus.NO_CONTENT);
 	}
 }
