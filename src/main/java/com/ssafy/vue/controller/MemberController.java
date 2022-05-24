@@ -94,23 +94,40 @@ public class MemberController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
+	
+	
 	@ApiOperation(value = "회원인증", notes = "토큰으로 인증된 사용자에게 비밀번호를 제외한 회원 정보를 반환한다.", response = Map.class)
 	@GetMapping("/valid")
-	public ResponseEntity<Boolean> tokenValidation(HttpServletRequest request) {
+	public ResponseEntity<Map<String,Object>> tokenValidation(HttpServletRequest request) {
 		logger.info("tokenValidation");
-		HttpStatus status = HttpStatus.ACCEPTED;
-		Boolean result = true;
+		Map<String, Object> result = new HashMap<>();
 		if (jwtService.isUsable(request.getHeader("Authorization"))) {
-			status = HttpStatus.ACCEPTED;
+			result.put("message", SUCCESS);
 		} else {
-			status = HttpStatus.FORBIDDEN;
-			result = false;
+			result.put("Authorization", null);
+			result.put("message", FAIL);
 		}
-		return new ResponseEntity<Boolean>(result, status);
+		return new ResponseEntity<Map<String,Object>>(result, HttpStatus.OK);
 	}
 	
-	@ApiOperation(value = "회원등록.", response = String.class)
-	@PostMapping
+	@ApiOperation(value = "로그아웃", response = Map.class)
+	@GetMapping("/logout")
+	public ResponseEntity<Map<String, Object>> logout(HttpServletRequest request) throws Exception {
+		logger.debug("logout - 호출");
+		Map<String,Object> result = new HashMap<>();
+		
+		if (jwtService.isUsable(request.getHeader("Authorization"))) {
+			result.put("Authorization", null);
+			result.put("message", SUCCESS);
+		} else {
+			result.put("message", FAIL);
+		}
+		
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "회원등록.", response = Map.class)
+	@PostMapping("/register")
 	public ResponseEntity<Map<String, Object>> regist(@RequestBody MemberDto memberDto) throws Exception {
 		logger.debug("writeBoard - 호출");
 		Map<String,Object> result = new HashMap<>();
