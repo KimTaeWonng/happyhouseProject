@@ -22,11 +22,12 @@
 	</insert>
 	
 	<!-- 댓글 수정 -->
-	<update id="updateComment" parameterType="int">
-		update comment set hit
-		= hit+1
-		where commentno = #{commentno}
+	<update id="changeComment" parameterType="comment">
+		update 	comment 
+		set		content = #{content}
+		where	commentno = #{commentno}
 	</update>
+	
 	
 	<!-- 댓글 삭제 -->
 	<delete id="deleteComment" parameterType="int">
@@ -34,4 +35,5 @@
 		from comment
 		where commentno = #{commentno}
 	</delete>
+	
 </mapper>

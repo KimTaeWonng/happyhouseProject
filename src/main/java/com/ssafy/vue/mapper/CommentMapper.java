@@ -11,6 +11,6 @@ import com.ssafy.vue.dto.Comment;
 public interface CommentMapper {
 	public List<Comment> boardComment(int articleno);
 	public int insertComment(Comment comment);
-	public int updateComment(Comment comment);
+	public int changeComment(Comment comment);
 	public int deleteComment(int commentno);
 }

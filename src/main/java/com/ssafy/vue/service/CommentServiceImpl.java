@@ -29,16 +29,16 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	@Transactional
-	public boolean updateComment(Comment comment) {
+	public boolean deleteComment(int commentno) {
 		// TODO Auto-generated method stub
-		return mapper.updateComment(comment) == 1;
+		return mapper.deleteComment(commentno) == 1;
 	}
 
 	@Override
 	@Transactional
-	public boolean deleteComment(int commentno) {
-		// TODO Auto-generated method stub
-		return mapper.deleteComment(commentno) == 1;
+	public boolean changeComment(Comment comment) {
+		return mapper.changeComment(comment) == 1;
+		
 	}
 
 }

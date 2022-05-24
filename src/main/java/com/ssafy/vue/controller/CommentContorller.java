@@ -57,7 +57,7 @@ public class CommentContorller {
 	@PutMapping("{commentno}")
 	public ResponseEntity<String> updateComment(@RequestBody Comment comment) {
 		logger.debug("updateComment - 호출");
-		if (commentService.updateComment(comment)) {
+		if (commentService.changeComment(comment)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
