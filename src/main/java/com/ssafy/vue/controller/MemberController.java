@@ -24,6 +24,11 @@ import com.ssafy.vue.dto.MemberDto;
 import com.ssafy.vue.service.JwtServiceImpl;
 import com.ssafy.vue.service.MemberService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+@Api("MemberController V1")
 @RestController
 @RequestMapping("/user")
 public class MemberController {
@@ -38,8 +43,9 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
+	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
 	@PostMapping("/login")
-	public ResponseEntity<Map<String, Object>> login(@RequestBody MemberDto memberDto) {
+	public ResponseEntity<Map<String, Object>> login(@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) MemberDto memberDto) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		try {
@@ -62,8 +68,10 @@ public class MemberController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
+	@ApiOperation(value = "회원정보", notes = "요청한 정보와 토큰 정보가 일치할 경우 비밀번호를 제외한 회원 정보를 반환한다.", response = Map.class)
 	@GetMapping("/info/{userid}")
-	public ResponseEntity<Map<String, Object>> getInfo(@PathVariable("userid") String userid, HttpServletRequest request) {
+	public ResponseEntity<Map<String, Object>> getInfo(@PathVariable("userid") @ApiParam(value = "인증할 회원의 아이디.", required = true) String userid,
+			HttpServletRequest request) {
 		//logger.debug("userid : {} ", userid);
 		Map<String, Object> result = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
@@ -94,8 +102,10 @@ public class MemberController {
 		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
 	
+	@ApiOperation(value = "회원정보", notes = "요청한 정보와 토큰 정보가 일치할 경우 회원 정보를 업데이트 한다.", response = Map.class)
 	@PutMapping("/info/{userid}")
-	public ResponseEntity<Map<String, Object>> updateInfo(@PathVariable("userid") String userid, @RequestBody MemberDto modifiedMember, HttpServletRequest request) {
+	public ResponseEntity<Map<String, Object>> updateInfo(@PathVariable("userid") @ApiParam(value = "인증할 회원의 아이디.", required = true) String userid,
+			@RequestBody MemberDto modifiedMember, HttpServletRequest request) {
 		//logger.debug("userid : {} ", userid);
 		Map<String, Object> result = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
@@ -125,8 +135,9 @@ public class MemberController {
 		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
 	
+	@ApiOperation(value = "회원정보", notes = "요청한 정보와 토큰 정보가 일치할 경우 회원 정보를 삭제 한다.", response = Map.class)
 	@DeleteMapping("/info/{userid}")
-	public ResponseEntity<Map<String, Object>> deleteInfo(@PathVariable("userid") String userid,
+	public ResponseEntity<Map<String, Object>> deleteInfo(@PathVariable("userid") @ApiParam(value = "인증할 회원의 아이디.", required = true) String userid,
 			HttpServletRequest request) {
 		//logger.debug("userid : {} ", userid);
 		Map<String, Object> result = new HashMap<>();
@@ -158,8 +169,9 @@ public class MemberController {
 		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
 	
+	@ApiOperation(value = "아이디 중복 확인", notes = "해당 아이디를 사용할 수 있는지 확인한다. true면 사용가능.", response = Map.class)
 	@GetMapping("/idcheck/{userid}")
-	public ResponseEntity<Map<String,Object>> checkID(@PathVariable("userid") String userid) {
+	public ResponseEntity<Map<String,Object>> checkID(@PathVariable("userid") @ApiParam(value = "중복체크할 아이디.", required = true) String userid) {
 		Map<String,Object> result = new HashMap<>();
 		try {
 			if(memberService.userInfo(userid) == null) {
@@ -173,6 +185,7 @@ public class MemberController {
 		return new ResponseEntity<Map<String,Object>>(result, HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "토큰 검증", notes = "토큰 유효성 검사", response = Map.class)
 	@GetMapping("/valid")
 	public ResponseEntity<Map<String,Object>> tokenValidation(HttpServletRequest request) {
 		logger.info("tokenValidation");
@@ -186,6 +199,7 @@ public class MemberController {
 		return new ResponseEntity<Map<String,Object>>(result, HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "로그아웃", response = Map.class)
 	@GetMapping("/logout")
 	public ResponseEntity<Map<String, Object>> logout(HttpServletRequest request) throws Exception {
 		logger.debug("logout - 호출");
@@ -201,6 +215,7 @@ public class MemberController {
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "회원등록.", response = Map.class)
 	@PostMapping("/register")
 	public ResponseEntity<Map<String, Object>> regist(@RequestBody MemberDto memberDto) throws Exception {
 		logger.debug("writeBoard - 호출");

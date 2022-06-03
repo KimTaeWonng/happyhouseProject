@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import io.swagger.annotations.ApiOperation;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -26,6 +28,7 @@ import org.w3c.dom.NodeList;
 @RequestMapping("/utility")
 public class UtilityController {
 	@GetMapping("/news")
+	@ApiOperation(value = "최신 뉴스를 반환한다.", response = Map.class)    
 	public ResponseEntity<List<Map<String,String>>> getNews(){
 		try {
 			//XML 요청 url

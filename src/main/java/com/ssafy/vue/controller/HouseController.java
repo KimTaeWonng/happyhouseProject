@@ -28,6 +28,7 @@ import com.ssafy.vue.service.CommentService;
 import com.ssafy.vue.service.HouseDealService;
 import com.ssafy.vue.service.HouseInfoService;
 
+import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
@@ -43,7 +44,8 @@ public class HouseController {
 	private HouseInfoService houseInfoService;
 	
 	
-	@GetMapping("/houseinfo/getAll")  
+	@GetMapping("/houseinfo/getAll")
+	@ApiOperation(value = "모든 집 정보를 반환한다. 최대 1000건까지 제공 ", response = HouseInfo.class)    
 	public ResponseEntity<List<HouseInfo>> houseInfoSelectAll(){
 		logger.debug("모든 집 정보 얻기");
    		return new ResponseEntity<List<HouseInfo>>(houseInfoService.selectAll(), HttpStatus.OK);
@@ -51,12 +53,14 @@ public class HouseController {
 	
 	
 	@GetMapping("/houseinfo/{aptCode}")
+	@ApiOperation(value = "해당 아파트의 정보를 반환한다", response = HouseInfo.class)    
 	public ResponseEntity<HouseInfo> selectByAptCode(@PathVariable String aptCode){
 		logger.debug(aptCode + " 정보 얻기");
    		return new ResponseEntity<HouseInfo>(houseInfoService.selectByid(aptCode), HttpStatus.OK);
 	}
 
-	@PostMapping("/houseinfo/getAll") 
+	@PostMapping("/houseinfo/getAll")
+	@ApiOperation(value = "선택한 지역에 맞는 정보를 반환한다. sido, gugun, dong을 json으로 전달해야됨 ", response = HouseInfo.class)    
 	public ResponseEntity<List<HouseInfo>> houseInfoByLocation(@RequestBody Map<String, String> payload){
 		String sido = payload.get("sido");
 		String gugun = payload.get("gugun");
@@ -76,12 +80,14 @@ public class HouseController {
    		return new ResponseEntity<List<HouseInfo>>(result, HttpStatus.OK);
 	}
 
-	@GetMapping("/housedeal/getAll")   
+	@GetMapping("/housedeal/getAll")
+	@ApiOperation(value = "모든 집 거래 정보를 반환한다.", response = HouseDeal.class)    
 	public ResponseEntity<List<HouseDeal>> houseDealSelectAll(){
    		return new ResponseEntity<List<HouseDeal>>(houseDealService.selectAll(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/housedeal/{aptCode}")
+	@ApiOperation(value = "해당 아파트의 거래정보를 반환한다.", response = HouseDeal.class)    
 	public ResponseEntity<List<HouseDeal>> houseDealSelectAll(@PathVariable String aptCode){
    		return new ResponseEntity<List<HouseDeal>>(houseDealService.selectAll(aptCode), HttpStatus.OK);
 	}

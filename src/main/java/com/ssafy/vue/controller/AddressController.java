@@ -30,6 +30,8 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
+import io.swagger.annotations.ApiOperation;
+
 import com.ssafy.vue.dto.InputAddress;
 import com.ssafy.vue.service.AddressService;
 
@@ -46,24 +48,28 @@ public class AddressController {
 	@Autowired
 	private AddressService addressService;
 	
+	@ApiOperation(value = "시,도 이름 반환", response = List.class)
 	@GetMapping
 	public ResponseEntity<List<InputAddress>> selectSido() throws Exception {
 		logger.debug("selectSido - 호출");
 		return new ResponseEntity<List<InputAddress>>(addressService.selectSido(), HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "시,도에 존재하는 구,군 이름 반환", response = List.class)
 	@GetMapping("/gugun/{sidocode}")
 	public ResponseEntity<List<InputAddress>> selectGugun(@PathVariable String sidocode) throws Exception {
 		logger.debug("selectSido - 호출");
 		return new ResponseEntity<List<InputAddress>>(addressService.selectGugun(sidocode), HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "시,도 이름 반환", response = List.class)
 	@GetMapping("/dong/{guguncode}")
 	public ResponseEntity<List<InputAddress>> selectDong(@PathVariable String guguncode) throws Exception {
 		logger.debug("selectSido - 호출");
 		return new ResponseEntity<List<InputAddress>>(addressService.selectDong(guguncode), HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "경로 반환. json으로 SX(출발지 X 좌표), SY(출발지 Y 좌표), EX(도착지 X 좌표), EY(도착지 Y 좌표)를 전달해야됨.", response = Map.class)
 	@PostMapping("/path")
 	public ResponseEntity<String> searchPath(@RequestBody Map<String,String> payload) throws Exception {
 		payload.put("apiKey", APIKEY);
