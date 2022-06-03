@@ -24,7 +24,7 @@ public class SwaggerConfig {
 				.apiInfo(apiInfo())
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.ssafy.vue.controller"))
-				.paths(regex("/vue/.*"))
+				.paths(regex("/.*"))
 				.build();
 	}
 
